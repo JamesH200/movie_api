@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Documentation</title>
+</head>
+<body>
+  <h1>API Documentation</h1>
+
+  <h2>Endpoints Overview</h2>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Request</th>
+        <th>URL</th>
+        <th>Method</th>
+        <th>Description</th>
+        <th>Query Parameters</th>
+        <th>Request Body</th>
+        <th>Response</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- General Endpoints -->
+      <tr>
+        <td>Get welcome message</td>
+        <td>/</td>
+        <td>GET</td>
+        <td>Returns a welcome message</td>
+        <td>None</td>
+        <td>None</td>
+        <td>Text string: "Welcome to my Top 10 Movies!"</td>
+      </tr>
+      <tr>
+        <td>Get all movies</td>
+        <td>/movies</td>
+        <td>GET</td>
+        <td>Returns data on all movies</td>
+        <td>None</td>
+        <td>None</td>
+        <td>JSON array of movie objects</td>
+      </tr>
+      <tr>
+        <td>Get documentation</td>
+        <td>/documentation</td>
+        <td>GET</td>
+        <td>Serves the documentation HTML file</td>
+        <td>None</td>
+        <td>None</td>
+        <td>HTML content of the documentation page</td>
+      </tr>
+
+      <!-- Movie-specific Endpoints -->
+      <tr>
+        <td>Get movie by title: "Prometheus"</td>
+        <td>/movies/prometheus</td>
+        <td>GET</td>
+        <td>Returns details of the movie "Prometheus"</td>
+        <td>None</td>
+        <td>None</td>
+        <td>JSON object: { "title": "Prometheus", "director": "Ridley Scott", "genre": "Sci-Fi, Horror" }</td>
+      </tr>
+      <tr>
+        <td>Get movie by title: "Blade Runner 2049"</td>
+        <td>/movies/blade-runner-2049</td>
+        <td>GET</td>
+        <td>Returns details of the movie "Blade Runner 2049"</td>
+        <td>None</td>
+        <td>None</td>
+        <td>JSON object: { "title": "Blade Runner 2049", "director": "Denis Villeneuve", "genre": "Sci-Fi, Action" }</td>
+      </tr>
+      <!-- Repeat for all movies -->
+
+      <tr>
+        <td>Get movie by title: "Friday After Next"</td>
+        <td>/movies/friday-after-next</td>
+        <td>GET</td>
+        <td>Returns details of the movie "Friday After Next"</td>
+        <td>None</td>
+        <td>None</td>
+        <td>JSON object: { "title": "Friday After Next", "director": "Marcus Raboy", "genre": "Comedy, Drama" }</td>
+      </tr>
+      <tr>
+        <td>Get movie by title: "Inception"</td>
+        <td>/movies/inception</td>
+        <td>GET</td>
+        <td>Returns details of the movie "Inception"</td>
+        <td>None</td>
+        <td>None</td>
+        <td>JSON object: { "title": "Inception", "director": "Christopher Nolan", "genre": "Sci-Fi, Action" }</td>
+      </tr>
+      <tr>
+        <td>Get movie by title: "The Big Short"</td>
+        <td>/movies/the-big-short</td>
+        <td>GET</td>
+        <td>Returns details of the movie "The Big Short"</td>
+        <td>None</td>
+        <td>None</td>
+        <td>JSON object: { "title": "The Big Short", "director": "Adam McKay", "genre": "Comedy, Thriller" }</td>
+      </tr>
+      <tr>
+        <td>Get movie by title: "Oblivion"</td>
+        <td>/movies/oblivion</td>
+        <td>GET</td>
+        <td>Returns details of the movie "Oblivion"</td>
+        <td>None</td>
+        <td>None</td>
+        <td>JSON object: { "title": "Oblivion", "director": "Joseph Kosinski", "genre": "Action, Sci-Fi" }</td>
+      </tr>
+      <tr>
+        <td>Get movie by title: "Django Unchained"</td>
+        <td>/movies/django-unchained</td>
+        <td>GET</td>
+        <td>Returns details of the movie "Django Unchained"</td>
+        <td>None</td>
+        <td>None</td>
+        <td>JSON object: { "title": "Django Unchained", "director": "Quentin Tarantino", "genre": "Western, Action" }</td>
+      </tr>
+      <tr>
+        <td>Get movie by title: "The Wolf On Wall Street"</td>
+        <td>/movies/the-wolf-on-wall-street</td>
+        <td>GET</td>
+        <td>Returns details of the movie "The Wolf On Wall Street"</td>
+        <td>None</td>
+        <td>None</td>
+        <td>JSON object: { "title": "The Wolf On Wall Street", "director": "Martin Scorsese", "genre": "Comedy, Thriller" }</td>
+      </tr>
+      <tr>
+        <td>Get movie by title: "Edge of Tomorrow"</td>
+        <td>/movies/edge-of-tomorrow</td>
+        <td>GET</td>
+        <td>Returns details of the movie "Edge of Tomorrow"</td>
+        <td>None</td>
+        <td>None</td>
+        <td>JSON object: { "title": "Edge of Tomorrow", "director": "Doug Liman", "genre": "Action, Sci-Fi" }</td>
+      </tr>
+      <tr>
+        <td>Get movie by title: "The Fast and The Furious"</td>
+        <td>/movies/the-fast-and-the-furious</td>
+        <td>GET</td>
+        <td>Returns details of the movie "The Fast and The Furious"</td>
+        <td>None</td>
+        <td>None</td>
+        <td>JSON object: { "title": "The Fast and The Furious", "director": "Rob Cohen", "genre": "Action, Crime" }</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>This documentation covers the endpoints for interacting with the movie database API. You can retrieve all movies, access documentation, and get detailed information about specific movies using the provided endpoints.</p>
+</body>
+</html>
