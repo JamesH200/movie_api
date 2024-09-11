@@ -3,7 +3,7 @@ const morgan = require("morgan");
 const path = require("path");
 const app = express();
 
-// Use Morgan for logging
+app.use(express.json()); // To parse JSON request bodies
 app.use(morgan("common"));
 
 // Serve static files from the "public" directory
@@ -89,19 +89,18 @@ const movies = [
       "Los Angeles police officer Brian O'Conner must decide where his loyalty lies when he becomes enamored with the street racing world.",
     director: "Rob Cohen",
     genre: "Action, Crime",
+    featured: false,
   },
 ];
 
-// Gets the list of data about ALL Movies
-
 // GET all movies
 app.get("/movies", (req, res) => {
-  res.json(topMovies);
+  res.json(movies);
 });
 
 // GET data about a single movie by title
 app.get("/movies/:title", (req, res) => {
-  const movie = topMovies.find((movie) => movie.title === req.params.title);
+  const movie = movies.find((movie) => movie.title === req.params.title);
 
   if (movie) {
     res.json(movie);
@@ -113,50 +112,50 @@ app.get("/movies/:title", (req, res) => {
 // POST a new movie
 app.post("/movies", (req, res) => {
   const newMovie = {
-    id: uuidv4(),
     title: req.body.title,
     director: req.body.director,
     genre: req.body.genre,
-    imageUrl: req.body.imageUrl,
+    description: req.body.description,
+    featured: req.body.featured || false,
   };
 
   if (!newMovie.title || !newMovie.director) {
-    res.status(400).send("Opps! Missing required fields: title or director");
+    res.status(400).send("Oops! Missing required fields: title or director");
   } else {
-    topMovies.push(newMovie);
+    movies.push(newMovie);
     res.status(201).json(newMovie);
   }
 });
 
 // DELETE a movie by title
 app.delete("/movies/:title", (req, res) => {
-  const movieIndex = topMovies.findIndex(
+  const movieIndex = movies.findIndex(
     (movie) => movie.title === req.params.title
   );
 
   if (movieIndex !== -1) {
-    topMovies.splice(movieIndex, 1);
+    movies.splice(movieIndex, 1);
     res.status(200).send(`Movie titled "${req.params.title}" was deleted.`);
   } else {
     res.status(404).send("Oops! Movie not found!");
   }
 });
 
-// (Update) the genre of a movie by title
-app.put("/movies/:title/:genre", (req, res) => {
-  const movie = topMovies.find((movie) => movie.title === req.params.title);
+// PUT (Update) the genre of a movie by title
+app.put("/movies/:title/genre", (req, res) => {
+  const movie = movies.find((movie) => movie.title === req.params.title);
 
   if (movie) {
     movie.genre = req.body.genre;
     res.status(200).json(movie);
   } else {
-    res.status(404).send("sorry! Movie not found!");
+    res.status(404).send("Sorry! Movie not found!");
   }
 });
 
 // PUT (Update) the director of a movie by title
 app.put("/movies/:title/director", (req, res) => {
-  const movie = topMovies.find((movie) => movie.title === req.params.title);
+  const movie = movies.find((movie) => movie.title === req.params.title);
 
   if (movie) {
     movie.director = req.body.director;
@@ -165,7 +164,6 @@ app.put("/movies/:title/director", (req, res) => {
     res.status(404).send("Movie not found");
   }
 });
-
 
 // Error-handling middleware
 app.use((err, req, res, next) => {

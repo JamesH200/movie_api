@@ -51,98 +51,83 @@
         <td>HTML content of the documentation page</td>
       </tr>
 
-
-                   <!-- Get All Movies -->
-                   <tr>
-                    <td>Get All Movies</td>
-                    <td>/movies</td>
-                    <td>Returns a list of all movies in the database.</td>
-                    <td>GET</td>
-                    <td>None</td>
-                    <td>None</td>
-                    <td>JSON array of movie objects</td>
-                </tr>
-                   <!-- Get Movie by Title -->
-                <tr>
-                    <td>Get Movie by Title</td>
-                    <td>/movies/:title</td>
-                    <td>Returns data about a single movie specified by its title.</td>
-                    <td>GET</td>
-                    <td>title (URL parameter)</td>
-                    <td>None</td>
-                    <td>JSON object with movie details (title, description, genre, director, image URL, etc.)</td>
-                </tr>
-                   <!-- Get Genre by Name -->
-                <tr>
-                    <td>Get Genre by Name</td>
-                    <td>/genres/:name</td>
-                    <td>Returns data about a genre specified by its name.</td>
-                    <td>GET</td>
-                    <td>name (URL parameter)</td>
-                    <td>None</td>
-                    <td>JSON object with genre details (name, description)</td>
-                </tr>
-                   <!-- Get Director by Name -->
-                <tr>
-                    <td>Get Director by Name</td>
-                    <td>/directors/:name</td>
-                    <td>Returns data about a director specified by their name.</td>
-                    <td>GET</td>
-                    <td>name (URL parameter)</td>
-                    <td>None</td>
-                    <td>JSON object with director details (name, bio, birth year, death year)</td>
-                </tr>
-                   <!-- Register User -->
-                <tr>
-                    <td>Register User</td>
-                    <td>/users/register</td>
-                    <td>Allows a new user to register.</td>
-                    <td>POST</td>
-                    <td>None</td>
-                    <td>JSON object with user data (username, password, email, dateOfBirth)</td>
-                    <td>Confirmation message or error message</td>
-                </tr>
-                   <!-- Update User -->
-                <tr>
-                    <td>Update User</td>
-                    <td>/users/:username</td>
-                    <td>Allows a user to update their personal information.</td>
-                    <td>PUT</td>
-                    <td>username (URL parameter)</td>
-                    <td>JSON object with updated user data (username, password, email, dateOfBirth)</td>
-                    <td>Updated user data or confirmation message</td>
-                </tr>
-                   <!-- Add Movie to Favorites -->
-                <tr>
-                    <td>Add Movie to Favorites</td>
-                    <td>/users/:username/favorites</td>
-                    <td>Add a movie to a user's list of favorites.</td>
-                    <td>POST</td>
-                    <td>username (URL parameter)</td>
-                    <td>JSON object with movie title</td>
-                    <td>Updated list of favorite movies or confirmation message</td>
-                </tr>
-                   <!-- Remove Movie from Favorites -->
-                <tr>
-                    <td>Remove Movie from Favorites</td>
-                     <td>/users/:username/favorites/:movieTitle</td>
-                     <td>Remove a movie from a user's list of favorites.</td>
-                     <td>DELETE</td>
-                    <td>username (URL parameter), movieTitle (URL parameter)</td>
-                    <td>None</td>
-                    <td>Updated list of favorite movies or confirmation message</td>
-                </tr>
-                   <!-- Deregister User -->
-                <tr>
-                    <td>Deregister User</td>
-                    <td>/users/:username</td>
-                    <td>Allows an existing user to deregister.</td>
-                    <td>DELETE</td>
-                    <td>username (URL parameter)</td>
-                    <td>None</td>
-                    <td>Confirmation message or error message</td>
-
       <!-- Movie-specific Endpoints -->
+      <tr>
+        <td>Get Movie by Title</td>
+        <td>/movies/:title</td>
+        <td>GET</td>
+        <td>Returns data about a single movie specified by its title.</td>
+        <td>title (URL parameter)</td>
+        <td>None</td>
+        <td>JSON object with movie details (title, description, genre, director)</td>
+      </tr>
+      <tr>
+        <td>Get Genre by Name</td>
+        <td>/genres/:name</td>
+        <td>GET</td>
+        <td>Returns data about a genre specified by its name.</td>
+        <td>name (URL parameter)</td>
+        <td>None</td>
+        <td>JSON object with genre details (name, description)</td>
+      </tr>
+      <tr>
+        <td>Get Director by Name</td>
+        <td>/directors/:name</td>
+        <td>GET</td>
+        <td>Returns data about a director specified by their name.</td>
+        <td>name (URL parameter)</td>
+        <td>None</td>
+        <td>JSON object with director details (name, bio, birth year, death year)</td>
+      </tr>
+
+      <!-- User Endpoints -->
+      <tr>
+        <td>Register User</td>
+        <td>/users/register</td>
+        <td>POST</td>
+        <td>Allows a new user to register.</td>
+        <td>None</td>
+        <td>JSON object with user data (username, password, email, dateOfBirth)</td>
+        <td>Confirmation message or error message</td>
+      </tr>
+      <tr>
+        <td>Update User</td>
+        <td>/users/:username</td>
+        <td>PUT</td>
+        <td>Allows a user to update their personal information.</td>
+        <td>username (URL parameter)</td>
+        <td>JSON object with updated user data (username, password, email, dateOfBirth)</td>
+        <td>Updated user data or confirmation message</td>
+      </tr>
+      <tr>
+        <td>Add Movie to Favorites</td>
+        <td>/users/:username/favorites</td>
+        <td>POST</td>
+        <td>Add a movie to a user's list of favorites.</td>
+        <td>username (URL parameter)</td>
+        <td>JSON object with movie title</td>
+        <td>Updated list of favorite movies or confirmation message</td>
+      </tr>
+      <tr>
+        <td>Remove Movie from Favorites</td>
+        <td>/users/:username/favorites/:movieTitle</td>
+        <td>DELETE</td>
+        <td>Remove a movie from a user's list of favorites.</td>
+        <td>username (URL parameter), movieTitle (URL parameter)</td>
+        <td>None</td>
+        <td>Updated list of favorite movies or confirmation message</td>
+      </tr>
+      <tr>
+        <td>Deregister User</td>
+        <td>/users/:username</td>
+        <td>DELETE</td>
+        <td>Allows an existing user to deregister.</td>
+        <td>username (URL parameter)</td>
+        <td>None</td>
+        <td>Confirmation message or error message</td>
+      </tr>
+
+      <!-- Specific Movie Details -->
       <tr>
         <td>Get movie by title: "Prometheus"</td>
         <td>/movies/prometheus</td>
@@ -161,8 +146,6 @@
         <td>None</td>
         <td>JSON object: { "title": "Blade Runner 2049", "director": "Denis Villeneuve", "genre": "Sci-Fi, Action" }</td>
       </tr>
-      <!-- Repeat for all movies -->
-
       <tr>
         <td>Get movie by title: "Friday After Next"</td>
         <td>/movies/friday-after-next</td>
@@ -241,3 +224,4 @@
   <p>This documentation covers the endpoints for interacting with the movie database API. You can retrieve all movies, access documentation, and get detailed information about specific movies using the provided endpoints.</p>
 </body>
 </html>
+
