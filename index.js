@@ -165,6 +165,61 @@ app.put("/movies/:title/director", (req, res) => {
   }
 });
 
+// GET movies by genre
+app.get("/movies/genre/:genre", (req, res) => {
+  const genre = req.params.genre;
+  const filteredMovies = movies.filter((movie) =>
+    movie.genre.toLowerCase().includes(genre.toLowerCase())
+  );
+  if (filteredMovies.length > 0) {
+    res.json(filteredMovies);
+  } else {
+    res.status(404).send("No movies found for the given genre.");
+  }
+});
+
+// GET movies by director
+app.get("/movies/director/:director", (req, res) => {
+  const director = req.params.director;
+  const filteredMovies = movies.filter((movie) =>
+    movie.director.toLowerCase().includes(director.toLowerCase())
+  );
+  if (filteredMovies.length > 0) {
+    res.json(filteredMovies);
+  } else {
+    res.status(404).send("No movies found for the given director.");
+  }
+});
+
+// POST a new movie
+app.post("/movies", (req, res) => {
+  const newMovie = {
+    id: uuidv4(),
+    title: req.body.title,
+    director: req.body.director,
+    genre: req.body.genre,
+    description: req.body.description,
+  };
+  if (!newMovie.title || !newMovie.director) {
+    res.status(400).send("Oops! Missing required fields: title or director");
+  } else {
+    movies.push(newMovie);
+    res.status(201).json(newMovie);
+  }
+});
+
+// PUT (Update) the description of a movie by title
+app.put("/movies/:title/description", (req, res) => {
+  const movie = movies.find((movie) => movie.title === req.params.title);
+  if (movie) {
+    movie.description = req.body.description;
+    res.status(200).json(movie);
+  } else {
+    res.status(404).send("Sorry! Movie not found!");
+  }
+});
+
+
 // Error-handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack); // Log the error stack to the terminal
