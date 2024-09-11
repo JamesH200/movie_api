@@ -1,12 +1,13 @@
 const express = require("express");
 const morgan = require("morgan");
-const swaggerJsdoc = require("swagger-jsdoc");
-const swaggerUi = require("swagger-ui-express");
+const path = require("path");
 const app = express();
 
 // Use Morgan for logging
 app.use(morgan("common"));
-app.use(express.json()); // To handle JSON request bodies
+
+// Serve static files from the "public" directory
+app.use(express.static("public"));
 
 // Movie data with descriptions, genres, and directors for all movies
 const movies = [
@@ -88,29 +89,8 @@ const movies = [
       "Los Angeles police officer Brian O'Conner must decide where his loyalty lies when he becomes enamored with the street racing world.",
     director: "Rob Cohen",
     genre: "Action, Crime",
-    featured: true,
   },
 ];
-
-const swaggerOptions = {
-  swaggerDefinition: {
-    openapi: "3.0.0",
-    info: {
-      title: "Movie API",
-      version: "1.0.0",
-      description: "API to get movie details and manage user data",
-    },
-    servers: [
-      {
-        url: "http://localhost:8080",
-      },
-    ],
-  },
-  apis: ["./server.js"], // Path to the API docs
-};
-
-const swaggerDocs = swaggerJsdoc(swaggerOptions);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Gets the list of data about ALL Movies
 
@@ -184,6 +164,13 @@ app.put("/movies/:title/director", (req, res) => {
   } else {
     res.status(404).send("Movie not found");
   }
+});
+
+
+// Error-handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack); // Log the error stack to the terminal
+  res.status(500).send("Something broke!"); // Send a generic error response to the client
 });
 
 // Listen for requests
