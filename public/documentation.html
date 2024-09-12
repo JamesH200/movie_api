@@ -1,13 +1,5 @@
+<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
-</html><html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,5 +8,190 @@
 <body>
     <h1>Movie API</h1>
     <p>This API provides access to information about various movies, allowing users to retrieve details such as titles, genres, and more.</p>
+
+    <h2>Endpoints</h2>
+    
+    <h3>1. GET /movies</h3>
+    <p>Retrieves a list of all movies.</p>
+    <pre><code>
+    GET /movies
+    Response:
+    Status 200 OK
+    Content-Type: application/json
+    [
+      {
+        "title": "Movie Title",
+        "description": "Movie Description",
+        "director": "Movie Director",
+        "genre": "Movie Genre",
+        "featured": false
+      },
+      ...
+    ]
+    </code></pre>
+    
+    <h3>2. GET /movies/:title</h3>
+    <p>Retrieves data about a single movie by its title.</p>
+    <pre><code>
+    GET /movies/Inception
+    Response:
+    Status 200 OK
+    Content-Type: application/json
+    {
+      "title": "Inception",
+      "description": "A thief who enters the dreams of others in order to steal information is tasked with planting an idea in a target's subconscious.",
+      "director": "Christopher Nolan",
+      "genre": "Sci-Fi, Action",
+      "featured": true
+    }
+    </code></pre>
+    
+    <h3>3. Put /movies</h3>
+    <p>Adds a new movie to the collection.</p>
+    <pre><code>
+    Put/movies
+    Request Body:
+    Content-Type: application/json
+    {
+        "title": "Inception",
+        "description":
+        "Movie Description.",
+        "director": "Christopher Nolan",
+        "genre: "Action, Sci-Fi",
+        featured: true,
+    }
+    Response:
+    Status 201 Created
+    Content-Type: application/json
+    {
+      "title": "New Movie Title",
+      "director": "New Director",
+      "genre": "Genre",
+      "description": "Movie description.",
+      "featured": true
+    }
+    </code></pre>
+
+    <h3>4. DELETE /movies/:title</h3>
+    <p>Deletes a movie by its title.</p>
+    <pre><code>
+    DELETE /movies/Oblivion
+    Response:
+    Status 200 OK
+    Content-Type: text/plain
+    Movie titled "Oblivion" was deleted.
+    </code></pre>
+    
+    <h3>5. PUT /movies/:title/genre</h3>
+    <p>Updates the genre of a movie by its title.</p>
+    <pre><code>
+    PUT /movies/Inception/genre
+    Request Body:
+    Content-Type: application/json
+    {
+      "genre": "Action, Adventure"
+    }
+    Response:
+    Status 200 OK
+    Content-Type: application/json
+    {
+      "title": "Inception",
+      "description": "A thief who enters the dreams of others in order to steal information is tasked with planting an idea in a target's subconscious.",
+      "director": "Christopher Nolan",
+      "genre": "Action, Adventure",
+      "featured": true
+    }
+    </code></pre>
+
+    <h3>6. POST /movies</h3>
+    <p>Adds a new movie to the collection.</p>
+    <pre><code>
+    POST /movies
+    Request Body:
+    Content-Type: application/json
+    { 
+        "title": "21 Bridges",
+        "director": "Brian Kirk",
+        "genre": "Action, Crime, Thriller",
+        "description": "An NYPD detective is thrust into a citywide manhunt for a pair of cop killers after uncovering a massive conspiracy."
+        "featured": false
+    }
+    Response:
+    Status 201 Created
+    Content-Type: application/json
+    {
+      "title": "21 Bridges",
+      "director": "Brian Kirk",
+      "genre": "Action, Crime, Thriller",
+      "description": "Movie description.",
+      "featured": false
+    }
+    </code></pre>
+
+    <h3>7. GET /movies/genre/:genre</h3>
+    <p>Retrieves movies filtered by genre.</p>
+    <pre><code>
+    GET /movies/genre/Sci-Fi
+    Response:
+    Status 200 OK
+    Content-Type: application/json
+    [
+      {
+        "title": "Prometheus",
+        "description": "A team of explorers discover a clue to the origins of mankind on Earth, leading them to an alien world.",
+        "director": "Ridley Scott",
+        "genre": "Sci-Fi, Horror",
+        "featured": false
+      },
+      {
+        "title": "Blade Runner 2049",
+        "description": "A young blade runner's discovery of a long-buried secret leads him to track down former blade runner Rick Deckard.",
+        "director": "Denis Villeneuve",
+        "genre": "Sci-Fi, Action",
+        "featured": true
+      },
+      ...
+    ]
+    </code></pre>
+    
+    <h3>8. GET /movies/director/:director</h3>
+    <p>Retrieves movies filtered by director.</p>
+    <pre><code>
+    GET /movies/director/Christopher Nolan
+    Response:
+    Status 200 OK
+    Content-Type: application/json
+    [
+      {
+        "title": "Inception",
+        "description": "A thief who enters the dreams of others in order to steal information is tasked with planting an idea in a target's subconscious.",
+        "director": "Christopher Nolan",
+        "genre": "Sci-Fi, Action",
+        "featured": true
+      }
+    ]
+    </code></pre>
+
+    <h3>9. Post /movies/:title/description</h3>
+    <p>Updates the description of a movie by its title.</p>
+    <pre><code>
+    Post /movies/Friday After Next/description
+    Request Body:
+    Content-Type: application/json
+    {
+      "description": "Updated description for Friday After Next."
+    }
+    Response:
+    Status 200 OK
+    Content-Type: application/json
+    {
+      "title": "Friday After Next",
+      "description": "Updated description for Friday After Next.",
+      "director": " Marcus Raboy",
+      "genre": "Comedy, Drama",
+      "featured": false
+    }
+    </code></pre>
+
 </body>
 </html>
