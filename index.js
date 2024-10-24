@@ -1,232 +1,149 @@
 const express = require("express");
-const morgan = require("morgan");
-const path = require("path");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+
+// Import the models from the models.js file
+const { Movie, User } = require("./models");
+
 const app = express();
+app.use(bodyParser.json());
 
-app.use(express.json()); // To parse JSON request bodies
-app.use(morgan("common"));
+// Connect to MongoDB (replace 'cinemaDB' with your actual database name if different)
+mongoose
+  .connect("mongodb://localhost:27017/movie_api", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.error("Could not connect to MongoDB", err));
 
-// Serve static files from the "public" directory
-app.use(express.static("public"));
 
-// Movie data with descriptions, genres, and directors for all movies
-const movies = [
-  {
-    title: "Prometheus",
-    description:
-      "A team of explorers discover a clue to the origins of mankind on Earth, leading them to an alien world.",
-    director: "Ridley Scott",
-    genre: "Sci-Fi, Horror",
-    featured: false,
-  },
-  {
-    title: "Blade Runner 2049",
-    description:
-      "A young blade runner's discovery of a long-buried secret leads him to track down former blade runner Rick Deckard.",
-    director: "Denis Villeneuve",
-    genre: "Sci-Fi, Action",
-    featured: true,
-  },
-  {
-    title: "Friday After Next",
-    description:
-      "Cousins Craig and Day-Day must deal with a ghetto Santa Claus who breaks into their apartment and steals their presents.",
-    director: "Marcus Raboy",
-    genre: "Comedy, Drama",
-    featured: false,
-  },
-  {
-    title: "Inception",
-    description:
-      "A thief who enters the dreams of others in order to steal information is tasked with planting an idea in a target's subconscious.",
-    director: "Christopher Nolan",
-    genre: "Sci-Fi, Action",
-    featured: true,
-  },
-  {
-    title: "The Big Short",
-    description:
-      "A group of investors predict the credit and housing bubble collapse of the mid-2000s and decide to profit from it.",
-    director: "Adam McKay",
-    genre: "Comedy, Thriller",
-    featured: false,
-  },
-  {
-    title: "Oblivion",
-    description:
-      "A veteran assigned to extract Earth's remaining resources begins to question what he knows about his mission and himself.",
-    director: "Joseph Kosinski",
-    genre: "Action, Sci-Fi",
-    featured: false,
-  },
-  {
-    title: "Django Unchained",
-    description:
-      "With the help of a German bounty-hunter, a freed slave sets out to rescue his wife from a brutal Mississippi plantation owner.",
-    director: "Quentin Tarantino",
-    genre: "Western, Action",
-    featured: true,
-  },
-  {
-    title: "The Wolf On Wall Street",
-    description:
-      "Based on the true story of Jordan Belfort, a stockbroker rises to wealth and excess in the 1990s.",
-    director: "Martin Scorsese",
-    genre: "Comedy, Thriller",
-    featured: true,
-  },
-  {
-    title: "Edge of Tomorrow",
-    description:
-      "A soldier caught in a time loop relives his last day in a brutal alien war and becomes better with each iteration.",
-    director: "Doug Liman",
-    genre: "Action, Sci-Fi",
-    featured: false,
-  },
-  {
-    title: "The Fast and The Furious",
-    description:
-      "Los Angeles police officer Brian O'Conner must decide where his loyalty lies when he becomes enamored with the street racing world.",
-    director: "Rob Cohen",
-    genre: "Action, Crime",
-    featured: false,
-  },
-];
-
-// GET all movies
-app.get("/movies", (req, res) => {
-  res.json(movies);
+// GET All Movies
+app.get("/movies", async (req, res) => {
+  try {
+    const movies = await Movie.find();
+    res.json(movies);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
-// GET data about a single movie by title
-app.get("/movies/:title", (req, res) => {
-  const movie = movies.find((movie) => movie.title === req.params.title);
+app.get("/users", async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
-  if (movie) {
+// GET movie by Title
+app.get("/movies/title/:", async (req, res) => {
+  try {
+    const movie = await Movie.findOne({ title: req.params.title });
+    if (!movie) {
+      return res.status(404).json({ message: "Movie not found" });
+    }
     res.json(movie);
-  } else {
-    res.status(404).send("Sorry! Movie not found!");
-  }
-});
-
-// POST a new movie
-app.post("/movies", (req, res) => {
-  const newMovie = {
-    title: req.body.title,
-    director: req.body.director,
-    genre: req.body.genre,
-    description: req.body.description,
-    featured: req.body.featured || false,
-  };
-
-  if (!newMovie.title || !newMovie.director) {
-    res.status(400).send("Oops! Missing required fields: title or director");
-  } else {
-    movies.push(newMovie);
-    res.status(201).json(newMovie);
-  }
-});
-
-// DELETE a movie by title
-app.delete("/movies/:title", (req, res) => {
-  const movieIndex = movies.findIndex(
-    (movie) => movie.title === req.params.title
-  );
-
-  if (movieIndex !== -1) {
-    movies.splice(movieIndex, 1);
-    res.status(200).send(`Movie titled "${req.params.title}" was deleted.`);
-  } else {
-    res.status(404).send("Oops! Movie not found!");
-  }
-});
-
-// PUT (Update) the genre of a movie by title
-app.put("/movies/:title/genre", (req, res) => {
-  const movie = movies.find((movie) => movie.title === req.params.title);
-
-  if (movie) {
-    movie.genre = req.body.genre;
-    res.status(200).json(movie);
-  } else {
-    res.status(404).send("Sorry! Movie not found!");
-  }
-});
-
-// PUT (Update) the director of a movie by title
-app.put("/movies/:title/director", (req, res) => {
-  const movie = movies.find((movie) => movie.title === req.params.title);
-
-  if (movie) {
-    movie.director = req.body.director;
-    res.status(200).json(movie);
-  } else {
-    res.status(404).send("Movie not found");
-  }
-});
-
-// GET movies by genre
-app.get("/movies/genre/:genre", (req, res) => {
-  const genre = req.params.genre;
-  const filteredMovies = movies.filter((movie) =>
-    movie.genre.toLowerCase().includes(genre.toLowerCase())
-  );
-  if (filteredMovies.length > 0) {
-    res.json(filteredMovies);
-  } else {
-    res.status(404).send("No movies found for the given genre.");
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 });
 
 // GET movies by director
-app.get("/movies/director/:director", (req, res) => {
-  const director = req.params.director;
-  const filteredMovies = movies.filter((movie) =>
-    movie.director.toLowerCase().includes(director.toLowerCase())
-  );
-  if (filteredMovies.length > 0) {
-    res.json(filteredMovies);
-  } else {
-    res.status(404).send("No movies found for the given director.");
+app.get("/movies/director/:directorName", async (req, res) => {
+  try {
+    const movies = await Movie.find({
+      "director.name": req.params.directorName,
+    });
+    if (movies.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No movies found for this director" });
+    }
+    res.json(movies);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 });
 
-// POST a new movie
-app.post("/movies", (req, res) => {
-  const newMovie = {
-    id: uuidv4(),
-    title: req.body.title,
-    director: req.body.director,
-    genre: req.body.genre,
-    description: req.body.description,
-  };
-  if (!newMovie.title || !newMovie.director) {
-    res.status(400).send("Oops! Missing required fields: title or director");
-  } else {
-    movies.push(newMovie);
-    res.status(201).json(newMovie);
+// GET movies by genre
+app.get("/movies/genre/:genreName", async (req, res) => {
+  try {
+    const movies = await Movie.find({ "genre.name": req.params.genreName });
+    if (movies.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No movies found for this genre" });
+    }
+    res.json(movies);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 });
 
-// PUT (Update) the description of a movie by title
-app.put("/movies/:title/description", (req, res) => {
-  const movie = movies.find((movie) => movie.title === req.params.title);
-  if (movie) {
-    movie.description = req.body.description;
-    res.status(200).json(movie);
-  } else {
-    res.status(404).send("Sorry! Movie not found!");
+// POST a New User
+app.post('/users', async (req, res) => {
+  await Users.findOne({ Username: req.body.Username })
+    .then((user) => {
+      if (user) {
+        return res.status(400).send(req.body.Username + 'already exists');
+      } else {
+        Users
+          .create({
+            Username: req.body.Username,
+            Password: req.body.Password,
+            Email: req.body.Email,
+            Birthday: req.body.Birthday
+          })
+          .then((user) =>{res.status(201).json(user) })
+        .catch((error) => {
+          console.error(error);
+          res.status(500).send('Error: ' + error);
+        })
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send('Error: ' + error);
+    });
+});
+
+// Put, Update User
+app.put('/users/:Username', async (req, res) => {
+  await Users.findOneAndUpdate({ Username: req.params.Username }, { $set:
+    {
+      Username: req.body.Username,
+      Password: req.body.Password,
+      Email: req.body.Email,
+      Birthday: req.body.Birthday
+    }
+  },
+  { new: true }) // This line makes sure that the updated document is returned
+  .then((updatedUser) => {
+    res.json(updatedUser);
+  })
+  .catch((err) => {
+    console.error(err);
+    res.status(500).send('Error: ' + err);
+  });
+}); 
+
+//Delete Users
+app.delete("/users/:id", async (req, res) => {
+  try {
+    const deletedUser = await User.findByIdAndDelete(req.params.id);
+    if (!deletedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json({ message: "User deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 });
 
-
-// Error-handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack); // Log the error stack to the terminal
-  res.status(500).send("Something broke!"); // Send a generic error response to the client
-});
-
-// Listen for requests
-app.listen(8080, () => {
-  console.log("Your app is listening on port 8080.");
+// Start the server
+const port = process.env.PORT || 8080;
+app.listen(port, 0, 0, 0, 0, () => {
+  console.log("Movie app is running on port " + port);
 });

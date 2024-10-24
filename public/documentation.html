@@ -1,197 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie API Documentation</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movie API Documentation</title>
 </head>
 <body>
-    <h1>Movie API</h1>
-    <p>This API provides access to information about various movies, allowing users to retrieve details such as titles, genres, and more.</p>
 
-    <h2>Endpoints</h2>
-    
-    <h3>1. GET /movies</h3>
-    <p>Retrieves a list of all movies.</p>
-    <pre><code>
-    GET /movies
-    Response:
-    Status 200 OK
-    Content-Type: application/json
-    [
-      {
-        "title": "Movie Title",
-        "description": "Movie Description",
-        "director": "Movie Director",
-        "genre": "Movie Genre",
-        "featured": false
-      },
-      ...
-    ]
-    </code></pre>
-    
-    <h3>2. GET /movies/:title</h3>
-    <p>Retrieves data about a single movie by its title.</p>
-    <pre><code>
-    GET /movies/Inception
-    Response:
-    Status 200 OK
-    Content-Type: application/json
+  <h1>Movie API Documentation</h1>
+  
+  <p>Welcome to the Movie API. Below you’ll find information about the available endpoints, the request methods, and the data that each endpoint accepts and returns. All methods follow REST conventions and respond with JSON data.</p>
+
+  <h2>1. Get All Movies</h2>
+  <p><strong>URL:</strong> <code>/movies</code></p>
+  <p><strong>Method:</strong> <code>GET</code></p>
+  <p><strong>Description:</strong> Returns a list of all movies in the database.</p>
+  <p><strong>Response Example:</strong></p>
+  <pre><code>[
     {
+      "_id": "66f7594625acf269c8986947",
+      "title": "Pulp Fiction",
+      "description": "The lives of two mob hitmen, a boxer, a gangster, and his wife intertwine in four tales of violence and redemption.",
+      "releaseYear": 1994,
+      "director": { "name": "Quentin Tarantino", "birthYear": 1963 },
+      "genre": { "name": "Crime", "description": "Crime-related events and stories." },
+      "featured": true
+    },
+    {
+      "_id": "66f7594625acf269c898694b",
       "title": "Inception",
-      "description": "A thief who enters the dreams of others in order to steal information is tasked with planting an idea in a target's subconscious.",
-      "director": "Christopher Nolan",
-      "genre": "Sci-Fi, Action",
-      "featured": true
-    }
-    </code></pre>
-    
-    <h3>3. Put /movies</h3>
-    <p>Adds a new movie to the collection.</p>
-    <pre><code>
-    Put/movies
-    Request Body:
-    Content-Type: application/json
-    {
-        "title": "Inception",
-        "description":
-        "Movie Description.",
-        "director": "Christopher Nolan",
-        "genre: "Action, Sci-Fi",
-        featured: true,
-    }
-    Response:
-    Status 201 Created
-    Content-Type: application/json
-    {
-      "title": "New Movie Title",
-      "director": "New Director",
-      "genre": "Genre",
-      "description": "Movie description.",
-      "featured": true
-    }
-    </code></pre>
-
-    <h3>4. DELETE /movies/:title</h3>
-    <p>Deletes a movie by its title.</p>
-    <pre><code>
-    DELETE /movies/Oblivion
-    Response:
-    Status 200 OK
-    Content-Type: text/plain
-    Movie titled "Oblivion" was deleted.
-    </code></pre>
-    
-    <h3>5. PUT /movies/:title/genre</h3>
-    <p>Updates the genre of a movie by its title.</p>
-    <pre><code>
-    PUT /movies/Inception/genre
-    Request Body:
-    Content-Type: application/json
-    {
-      "genre": "Action, Adventure"
-    }
-    Response:
-    Status 200 OK
-    Content-Type: application/json
-    {
-      "title": "Inception",
-      "description": "A thief who enters the dreams of others in order to steal information is tasked with planting an idea in a target's subconscious.",
-      "director": "Christopher Nolan",
-      "genre": "Action, Adventure",
-      "featured": true
-    }
-    </code></pre>
-
-    <h3>6. POST /movies</h3>
-    <p>Adds a new movie to the collection.</p>
-    <pre><code>
-    POST /movies
-    Request Body:
-    Content-Type: application/json
-    { 
-        "title": "21 Bridges",
-        "director": "Brian Kirk",
-        "genre": "Action, Crime, Thriller",
-        "description": "An NYPD detective is thrust into a citywide manhunt for a pair of cop killers after uncovering a massive conspiracy."
-        "featured": false
-    }
-    Response:
-    Status 201 Created
-    Content-Type: application/json
-    {
-      "title": "21 Bridges",
-      "director": "Brian Kirk",
-      "genre": "Action, Crime, Thriller",
-      "description": "Movie description.",
+      "description": "A mind-bending thriller",
+      "releaseYear": 2010,
+      "director": { "name": "Christopher Nolan", "birthYear": 1970 },
+      "genre": { "name": "Science Fiction", "description": "Science fiction movies about futuristic technology and space." },
       "featured": false
     }
-    </code></pre>
+  ]</code></pre>
 
-    <h3>7. GET /movies/genre/:genre</h3>
-    <p>Retrieves movies filtered by genre.</p>
-    <pre><code>
-    GET /movies/genre/Sci-Fi
-    Response:
-    Status 200 OK
-    Content-Type: application/json
-    [
-      {
-        "title": "Prometheus",
-        "description": "A team of explorers discover a clue to the origins of mankind on Earth, leading them to an alien world.",
-        "director": "Ridley Scott",
-        "genre": "Sci-Fi, Horror",
-        "featured": false
-      },
-      {
-        "title": "Blade Runner 2049",
-        "description": "A young blade runner's discovery of a long-buried secret leads him to track down former blade runner Rick Deckard.",
-        "director": "Denis Villeneuve",
-        "genre": "Sci-Fi, Action",
-        "featured": true
-      },
-      ...
-    ]
-    </code></pre>
-    
-    <h3>8. GET /movies/director/:director</h3>
-    <p>Retrieves movies filtered by director.</p>
-    <pre><code>
-    GET /movies/director/Christopher Nolan
-    Response:
-    Status 200 OK
-    Content-Type: application/json
-    [
-      {
-        "title": "Inception",
-        "description": "A thief who enters the dreams of others in order to steal information is tasked with planting an idea in a target's subconscious.",
-        "director": "Christopher Nolan",
-        "genre": "Sci-Fi, Action",
-        "featured": true
-      }
-    ]
-    </code></pre>
+  <h2>2. Get a Single Movie by ID</h2>
+  <p><strong>URL:</strong> <code>/movies/:id</code></p>
+  <p><strong>Method:</strong> <code>GET</code></p>
+  <p><strong>Description:</strong> Returns details about a specific movie by its ID.</p>
+  <p><strong>Response Example:</strong></p>
+  <pre><code>{
+    "_id": "66f7594625acf269c898694b",
+    "title": "Inception",
+    "description": "A mind-bending thriller",
+    "releaseYear": 2010,
+    "director": { "name": "Christopher Nolan", "birthYear": 1970 },
+    "genre": { "name": "Science Fiction", "description": "Science fiction movies about futuristic technology and space." },
+    "featured": false
+  }</code></pre>
 
-    <h3>9. Post /movies/:title/description</h3>
-    <p>Updates the description of a movie by its title.</p>
-    <pre><code>
-    Post /movies/Friday After Next/description
-    Request Body:
-    Content-Type: application/json
-    {
-      "description": "Updated description for Friday After Next."
-    }
-    Response:
-    Status 200 OK
-    Content-Type: application/json
-    {
-      "title": "Friday After Next",
-      "description": "Updated description for Friday After Next.",
-      "director": " Marcus Raboy",
-      "genre": "Comedy, Drama",
-      "featured": false
-    }
-    </code></pre>
+  <h2>3. Get Genre by Name</h2>
+  <p><strong>URL:</strong> <code>/genres/:name</code></p>
+  <p><strong>Method:</strong> <code>GET</code></p>
+  <p><strong>Description:</strong> Returns data about a genre by its name.</p>
+  <p><strong>Response Example:</strong></p>
+  <pre><code>{
+    "name": "Science Fiction",
+    "description": "Science fiction movies about futuristic technology and space."
+  }</code></pre>
+
+  <h2>4. Get Director by Name</h2>
+  <p><strong>URL:</strong> <code>/directors/:name</code></p>
+  <p><strong>Method:</strong> <code>GET</code></p>
+  <p><strong>Description:</strong> Returns data about a director by name (including bio and birth year).</p>
+  <p><strong>Response Example:</strong></p>
+  <pre><code>{
+    "name": "Christopher Nolan",
+    "bio": "British-American filmmaker known for mind-bending, intellectual thrillers.",
+    "birthYear": "1970"
+  }</code></pre>
+
+  <h2>5. Register a New User</h2>
+  <p><strong>URL:</strong> <code>/users</code></p>
+  <p><strong>Method:</strong> <code>POST</code></p>
+  <p><strong>Description:</strong> Registers a new user in the database.</p>
+  <p><strong>Request Body Example:</strong></p>
+  <pre><code>{
+    "username": "jane_smith",
+    "email": "jane@example.com",
+    "birth_date": "1985-05-22",
+    "favorites": ["66f7594625acf269c8986947", "66f7594625acf269c898694f"]
+  }</code></pre>
+  <p><strong>Response Example:</strong></p>
+  <pre><code>{
+    "_id": "66f759be25acf269c8986952",
+    "username": "jane_smith",
+    "email": "jane@example.com",
+    "birth_date": "1985-05-22",
+    "favorites": ["66f7594625acf269c8986947", "66f7594625acf269c898694f"]
+  }</code></pre>
+
+  <h2>6. Update User Info</h2>
+  <p><strong>URL:</strong> <code>/users/:id</code></p>
+  <p><strong>Method:</strong> <code>PUT</code></p>
+  <p><strong>Description:</strong> Updates user information.</p>
+  <p><strong>Request Body Example:</strong></p>
+  <pre><code>{
+    "username": "alice_jones",
+    "email": "alice_new@example.com",
+    "birth_date": "1988-07-30",
+    "favorites": ["66f7594625acf269c898694d"]
+  }</code></pre>
+  <p><strong>Response Example:</strong></p>
+  <pre><code>{
+    "_id": "66f759be25acf269c8986953",
+    "username": "alice_jones",
+    "email": "alice_new@example.com",
+    "birth_date": "1988-07-30",
+    "favorites": ["66f7594625acf269c898694d"]
+  }</code></pre>
+
+  <h2>7. Add Movie to Favorites</h2>
+  <p><strong>URL:</strong> <code>/users/:id/favorites/:movieID</code></p>
+  <p><strong>Method:</strong> <code>POST</code></p>
+  <p><strong>Description:</strong> Adds a movie to a user's list of favorite movies.</p>
+  <p><strong>Response Example:</strong></p>
+  <pre><code>{
+    "_id": "66f759be25acf269c8986953",
+    "username": "alice_jones",
+    "favorites": ["66f7594625acf269c898694d"]
+  }</code></pre>
+
+  <h2>8. Remove Movie from Favorites</h2>
+  <p><strong>URL:</strong> <code>/users/:id/favorites/:movieID</code></p>
+  <p><strong>Method:</strong> <code>DELETE</code></p>
+  <p><strong>Description:</strong> Removes a movie from a user's list of favorite movies.</p>
+  <p><strong>Response Example:</strong></p>
+  <pre><code>{
+    "_id": "66f759be25acf269c8986953",
+    "username": "alice_jones",
+    "favorites": []
+  }</code></pre>
+
+  <h2>9. Deregister User</h2>
+  <p><strong>URL:</strong> <code>/users/:id</code></p>
+  <p><strong>Method:</strong> <code>DELETE</code></p>
+  <p><strong>Description:</strong> Deletes a user from the database.</p>
+  <p><strong>Response Example:</strong></p>
+  <pre><code>{ "message": "User deleted successfully" }</code></pre>
 
 </body>
 </html>
