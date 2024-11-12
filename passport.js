@@ -1,42 +1,32 @@
-const passport = require("passport"),
-  LocalStrategy = require("passport-local").Strategy,
-  Models = require("./models.js"),
-  passportJWT = require("passport-jwt");
-
-const Users = Models.User; // Ensure this matches the export in models.js
-const JWTStrategy = passportJWT.Strategy;
-const ExtractJWT = passportJWT.ExtractJwt; // Fix ExtractJWT typo
-
 passport.use(
-  new LocalStrategy(
-    {
-      usernameField: "username", // Ensure field name matches in models
-      passwordField: "password", 
-    },
-    async (username, password, done) => {
-      await Users.findOne({ username: username })
+    new LocalStrategy(
+      {
+        usernameField: 'Username',
+        passwordField: 'Password',
+      },
+      async (username, password, callback) => {
+        console.log(`${username} ${password}`);
+        await Users.findOne({ Username: username })
         .then((user) => {
           if (!user) {
-            return done(null, false, { message: "Incorrect username or password." });
+            console.log('incorrect username');
+            return callback(null, false, {
+              message: 'Incorrect username or password.',
+            });
           }
-          console.log("Authentication successful");
-          return done(null, user);
+          if (!user.validatePassword(password)) {
+            console.log('incorrect password');
+            return callback(null, false, { message: 'Incorrect password.' });
+          }
+          console.log('finished');
+          return callback(null, user);
         })
-        .catch((error) => done(error));
-    }
-  )
-);
-
-passport.use(
-  new JWTStrategy(
-    {
-      jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-      secretOrKey: "your_jwt_secret",
-    },
-    async (jwtPayload, done) => {
-      return await Users.findById(jwtPayload._id)
-        .then((user) => done(null, user))
-        .catch((error) => done(error));
-    }
-  )
-);
+        .catch((error) => {
+          if (error) {
+            console.log(error);
+            return callback(error);
+          }
+        })
+      }
+    )
+  );
