@@ -1,46 +1,58 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const Users = require('./models/User'); // Adjust the path as necessary
+const passportJWT = require('passport-jwt');
+const JWTStrategy = passportJWT.Strategy;
+const ExtractJWT = passportJWT.ExtractJwt;
+const Users = require('./models').Users; // Assuming you have a Users model in models.js
+const bcrypt = require('bcrypt');
 
+// Local strategy for username and password login
 passport.use(
   new LocalStrategy(
     {
-      usernameField: 'Username',
-      passwordField: 'Password',
+      usernameField: 'username', // Field names from the login form
+      passwordField: 'password',
     },
-    async (username, password, callback) => {
-      try {
-        console.log(`${username} ${password}`);
-        const user = await Users.findOne({ Username: username });
-        if (!user) {
-          console.log('incorrect username');
-          return callback(null, false, { message: 'Incorrect username or password.' });
-        }
-        if (!user.validatePassword(password)) {
-          console.log('incorrect password');
-          return callback(null, false, { message: 'Incorrect password.' });
-        }
-        console.log('finished');
-        return callback(null, user);
-      } catch (error) {
-        console.log(error);
-        return callback(error);
-      }
+    (username, password, done) => {
+      Users.findOne({ username: username })
+        .then((user) => {
+          if (!user) {
+            return done(null, false, { message: 'Incorrect username' });
+          }
+
+          // Compare provided password with hashed password in DB
+          bcrypt.compare(password, user.password, (err, isMatch) => {
+            if (err) return done(err);
+            if (!isMatch) {
+              return done(null, false, { message: 'Incorrect password' });
+            }
+            return done(null, user);
+          });
+        })
+        .catch((err) => done(err));
     }
   )
 );
 
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await Users.findById(id);
-    done(null, user);
-  } catch (error) {
-    done(error, null);
-  }
-});
+// JWT strategy for token-based authentication
+passport.use(
+  new JWTStrategy(
+    {
+      jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(), // Extract JWT from the Authorization header
+      secretOrKey: 'your_jwt_secret', // Replace with your JWT secret key
+    },
+    (jwtPayload, done) => {
+      return Users.findById(jwtPayload._id)
+        .then((user) => {
+          if (!user) {
+            return done(null, false);
+          }
+          return done(null, user);
+        })
+        .catch((err) => done(err));
+    }
+  )
+);
 
 module.exports = passport;
+
