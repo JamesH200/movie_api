@@ -62,15 +62,20 @@ app.post(
 );
 
 
+// check("Username").optional().isLength({ min: 5 }).withMessage("Username must be at least 5 characters long."),
+  // check("Password").optional().notEmpty().withMessage("Password is required if provided."),
+   //("Email").optional().isEmail().withMessage("Invalid email address."),
+   //req.body("Birthday").optional().isDate().withMessage("Invalid date format for Birthday.")
+
 // PUT route to update user details with validation
 app.put(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
   [
-   req.body("Username").optional().isLength({ min: 5 }).withMessage("Username must be at least 5 characters long."),
-   req.body("Password").optional().notEmpty().withMessage("Password is required if provided."),
-   req.body("Email").optional().isEmail().withMessage("Invalid email address."),
-   req.body("Birthday").optional().isDate().withMessage("Invalid date format for Birthday.")
+    check('Username', 'Username is required and must be at least 5 characters long').isLength({ min: 5 }),
+    check('Username', 'Username can only contain alphanumeric characters').isAlphanumeric(),
+    check('Password', 'Password is required').not().isEmpty(),
+    check('Email', 'Email must be valid').isEmail()
   ],
   async (req, res) => {
     if (req.user.Username !== req.params.Username) {
