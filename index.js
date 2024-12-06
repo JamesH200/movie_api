@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const { Movie, User } = require("./models");
 const auth = require("./auth");
-const { check, validationResult } = require("express-validator");
+const { check, validationResult, body } = require("express-validator");
 
 const app = express();
 app.use(express.json());
@@ -67,10 +67,10 @@ app.put(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
   [
-    body("Username").optional().isLength({ min: 5 }).withMessage("Username must be at least 5 characters long."),
-    body("Password").optional().notEmpty().withMessage("Password is required if provided."),
-    body("Email").optional().isEmail().withMessage("Invalid email address."),
-    body("Birthday").optional().isDate().withMessage("Invalid date format for Birthday.")
+   req.body("Username").optional().isLength({ min: 5 }).withMessage("Username must be at least 5 characters long."),
+   req.body("Password").optional().notEmpty().withMessage("Password is required if provided."),
+   req.body("Email").optional().isEmail().withMessage("Invalid email address."),
+   req.body("Birthday").optional().isDate().withMessage("Invalid date format for Birthday.")
   ],
   async (req, res) => {
     if (req.user.Username !== req.params.Username) {
