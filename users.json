@@ -1,0 +1,82 @@
+[
+    {
+        "FavoriteMovies": [],
+        "_id": "67217eb7b09a4626e8a4d093",
+        "username": "tester1",
+        "password": "password1",
+        "email": "tester1@example.com",
+        "birthday": "1991-01-01T00:00:00.000Z",
+        "favoriteMovie": "Black Panther"
+    },
+    {
+        "FavoriteMovies": [],
+        "_id": "67217eb7b09a4626e8a4d094",
+        "username": "tester2",
+        "password": "password2",
+        "email": "tester2@example.com",
+        "birthday": "1992-02-02T00:00:00.000Z",
+        "favoriteMovie": "Pulp Fiction"
+    },
+    {
+        "FavoriteMovies": [],
+        "_id": "67217eb7b09a4626e8a4d095",
+        "username": "tester3",
+        "password": "password3",
+        "email": "tester3@example.com",
+        "birthday": "1993-03-03T00:00:00.000Z",
+        "favoriteMovie": "Inception"
+    },
+    {
+        "FavoriteMovies": [],
+        "_id": "67217eb7b09a4626e8a4d096",
+        "username": "tester4",
+        "password": "password4",
+        "email": "tester4@example.com",
+        "birthday": "1994-04-04T00:00:00.000Z",
+        "favoriteMovie": "Do the Right Thing"
+    },
+    {
+        "FavoriteMovies": [],
+        "_id": "67217eb7b09a4626e8a4d097",
+        "username": "tester5",
+        "password": "password5",
+        "email": "tester5@example.com",
+        "birthday": "1995-05-05T00:00:00.000Z",
+        "favoriteMovie": "Boyz n the Hood"
+    },
+    {
+        "_id": "67295707dc565f55f809c5ee",
+        "username": "layah",
+        "password": "purple",
+        "email": "layah@gmail.com",
+        "birthday": "2014-08-26T00:00:00.000Z",
+        "FavoriteMovies": [],
+        "__v": 0
+    },
+    {
+        "_id": "67295976dc565f55f809c5f1",
+        "username": "jayda",
+        "password": "blue",
+        "email": "jayda@gmail.com",
+        "birthday": "2019-06-05T00:00:00.000Z",
+        "FavoriteMovies": [],
+        "__v": 0
+    },
+    {
+        "_id": "67295a30dc565f55f809c5f4",
+        "username": "livia",
+        "password": "pink",
+        "email": "livia@gmail.com",
+        "FavoriteMovies": [],
+        "__v": 0
+    },
+    {
+        "_id": "67295fc1dc565f55f809c5fa",
+        "username": "cowboy",
+        "password": "blue",
+        "email": "cowboy@gmail.com",
+        "birthday": "1989-05-11T00:00:00.000Z",
+        "FavoriteMovies": [],
+        "__v": 0
+    }
+]
