@@ -14,12 +14,21 @@ app.use(cors());
 auth(app); // Load authentication setup
 require("./passport"); // Initialize passport configuration
 
+// app will serve the favicon from the public folder when it receives a request for /favicon.ico.so it does not crash .. date changed 12-30-24
+const path = require('path');
+app.use(express.static(path.join(__dirname, 'public')));
+
 mongoose
   .connectmongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
    then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("Could not connect to MongoDB", err));
 
-// Publicly accessible route for user registration with validation 
+  // added 12-3024 .. This will ensure that the request for /favicon.ico doesn't crash the app.
+  app.get('/favicon.ico', (req, res) => {
+    res.status(204).send();  // No Content response
+  });
+
+  // Publicly accessible route for user registration with validation 
 app.post(
   '/users',
   [
