@@ -7,7 +7,7 @@ require("./passport"); // Correct file path
 // Function to generate JWT
 let generateJWToken = (user) => {
   return jwt.sign(user, jwtSecret, {
-    subject: user.username, // Use 'username' consistently
+    subject: user.Username, // Use 'username' consistently
     expiresIn: "7d",
     algorithm: "HS256",
   });
