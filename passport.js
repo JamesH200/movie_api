@@ -10,11 +10,11 @@ const ExtractJWT = passportJWT.ExtractJwt; // Fix ExtractJWT typo
 passport.use(
   new LocalStrategy(
     {
-      usernameField: "username", // Ensure field name matches in models
-      passwordField: "password", 
+      usernameField: "Username", // Ensure field name matches in models
+      passwordField: "Password", 
     },
     async (username, password, done) => {
-      await Users.findOne({ username: username })
+      await Users.findOne({ Username: username })
         .then((user) => {
           if (!user) {
             return done(null, false, { message: "Incorrect username or password." });

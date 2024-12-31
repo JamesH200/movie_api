@@ -17,6 +17,7 @@ require("./passport"); // Initialize passport configuration
 mongoose
   .connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("Database Connected to MongoDB - " +process.env.CONNECTION_URI)) //added + process.env.CONNECTION_URI
+
   .catch((err) => console.error("Database Could not connect to MongoDB", err));
 
   // Publicly accessible route for user registration with validation 
