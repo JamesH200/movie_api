@@ -16,7 +16,7 @@ require("./passport"); // Initialize passport configuration
 
 mongoose
   .connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("Database Connected to MongoDB"))
+  .then(() => console.log("Database Connected to MongoDB - " +process.env.CONNECTION_URI)) //added + process.env.CONNECTION_URI
   .catch((err) => console.error("Database Could not connect to MongoDB", err));
 
   // Publicly accessible route for user registration with validation 
@@ -101,6 +101,10 @@ app.put(
       .catch((err) => res.status(500).send("Error: " + err));
   }
 );
+
+app.get('/', (req, res) => {
+  res.send('Welcome to JAMES Movie API!');
+});
 
 // JWT-protected routes
 app.get("/movies", passport.authenticate("jwt", { session: false }), async (req, res) => {
