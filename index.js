@@ -108,7 +108,7 @@ app.get('/', (req, res) => {
 });
 
 // JWT-protected routes
-app.get("/movies", passport.authenticate("jwt", { session: false }), async (req, res) => {
+app.get("/movies", async (req, res) => {  // Remove passport.authenticate('jwt', { session: false }), from your /movies endpoint
   try {
     const movies = await Movie.find();
     res.status(200).json(movies);
