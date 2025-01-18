@@ -1,1 +1,0 @@
-mongoimport --uri mongodb+srv://MyMovieAPIAdmin:R4crWh4iN1gNqNs5@mymovieapi.hgfji.mongodb.net/mymovieapi --collection  movies --type  json  --file /Users/jamesw.hudsonyahoo.com/Desktop/movie_api/movies.json --jsonArray
