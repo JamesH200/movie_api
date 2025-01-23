@@ -108,9 +108,12 @@ app.get('/', (req, res) => {
 });
 
 // JWT-protected routes
-app.get("/movies", (req, res) => { // temporaily remove authentication....this goes in between movies and req res.....passport.authenticate("jwt", { session: false }), async 
+
+app.get("/movies",async (req, res) => { // temporaily remove authentication....this goes in between movies and req res.....passport.authenticate("jwt", { session: false }), async 
   try {
-    const movies = Movie.find(); // remove await because its only allowed with async ... example const movies = awaait Movie.find ();
+    const movies = await Movie.find().then((movies) => {
+      res.status(201).json(movies);
+  }); // remove await because its only allowed with async ... example const movies = awaait Movie.find ();
   } catch (error) {
     res.status(500).send("Error: " + error);
   }
