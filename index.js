@@ -1,3 +1,5 @@
+require('dotenv').config(); // Load environment variables from .env file
+
 const express = require("express");
 const mongoose = require("mongoose");
 const passport = require("passport");
@@ -18,8 +20,8 @@ auth(app);
 require("./passport");
 
 // Database connection
-mongoose
-  .connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+console.log("Connection URI:", process.env.CONNECTION_URI); // Debugging line
+mongoose.connect(process.env.CONNECTION_URI)
   .then(() => console.log("Database Connected to MongoDB - " + process.env.CONNECTION_URI))
   .catch((err) => console.error("Database Could not connect to MongoDB", err));
 
@@ -105,7 +107,7 @@ app.get("/", (req, res) => {
 app.get("/movies", async (req, res) => {
   try {
     const movies = await Movie.find();
-    res.status(200).json(movies);
+    res.status(200).json(movies); // Use 200 for successful GET requests
   } catch (error) {
     console.error("Error fetching movies:", error);
     res.status(500).send("Error: " + error);
